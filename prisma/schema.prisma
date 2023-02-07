@@ -15,11 +15,27 @@ enum Year {
 }
 
 model Student {
-  id        String @id @default(uuid())
+  id        String    @id @default(uuid())
   prox      String
   firstName String
   lastName  String
   year      Year
   email     String
   redwoodId String
+  checkins  Checkin[]
+}
+
+model Event {
+  id      String    @id @default(uuid())
+  Checkin Checkin[]
+}
+
+// Note: Completely different than a Smart Events checkin!
+model Checkin {
+  id        String   @id @default(uuid())
+  student   Student  @relation(fields: [studentId], references: [id])
+  studentId String
+  event     Event    @relation(fields: [eventId], references: [id])
+  eventId   String
+  createdAt DateTime @default(now())
 }

@@ -1,0 +1,25 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Year {
+  FRESHMAN
+  SOPHOMORE
+  JUNIOR
+  SENIOR
+}
+
+model Student {
+  id        String @id @default(uuid())
+  prox      String
+  firstName String
+  lastName  String
+  year      Year
+  email     String
+  redwoodId String
+}

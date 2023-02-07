@@ -27,6 +27,7 @@ model Student {
 
 model Event {
   id      String    @id @default(uuid())
+  name    String
   Checkin Checkin[]
 }
 

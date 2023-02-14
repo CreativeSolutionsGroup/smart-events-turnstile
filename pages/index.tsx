@@ -1,4 +1,14 @@
 import Head from 'next/head'
+import { PrismaClient } from '@prisma/client'
+
+export async function getServerSideProps() {
+  return {
+    redirect: {
+      destination: "/purchase",
+      permanent: true
+    }
+  }
+}
 
 export default function Home() {
   return (

@@ -7,13 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Year {
-  FRESHMAN
-  SOPHOMORE
-  JUNIOR
-  SENIOR
-}
-
 model Student {
   id        String    @id @default(uuid())
   prox      String
@@ -31,12 +24,23 @@ model Event {
   Checkin Checkin[]
 }
 
-// Note: Completely different than a Smart Events checkin!
 model Checkin {
   id        String   @id @default(uuid())
-  student   Student  @relation(fields: [studentId], references: [id])
   studentId String
-  event     Event    @relation(fields: [eventId], references: [id])
   eventId   String
   createdAt DateTime @default(now())
+  event     Event    @relation(fields: [eventId], references: [id])
+  student   Student  @relation(fields: [studentId], references: [id])
+}
+
+model Admin {
+  id    String @id @default(uuid())
+  email String
+}
+
+enum Year {
+  FRESHMAN
+  SOPHOMORE
+  JUNIOR
+  SENIOR
 }

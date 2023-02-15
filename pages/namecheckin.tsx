@@ -17,12 +17,10 @@ export default function NameCheckIn({ students }: { students: Array<Student> }) 
         <Typography fontWeight="bold" variant="h4">Turnstile</Typography>
         <Typography variant="caption">Check In</Typography>
         <Box sx={{ display: "flex", flexDirection: "row" }}>
-            <TextField label="5 Digit Student ID" variant="standard" />
+            <TextField label="Last Name" variant="standard" />
             <Button>USE LAST NAME</Button>
         </Box>
         {/* {students.map((student, i) => <CheckinCard student={student} key={i} />)} */}
     </>
     )
 }
-
-// add already checked in v. check in functionality to button

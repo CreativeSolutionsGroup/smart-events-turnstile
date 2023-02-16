@@ -36,11 +36,9 @@ export default function Purchase({ student }: InferGetServerSidePropsType<typeof
             </Box>
             <TextField label="Year" variant="filled">{student.year}</TextField>
             <TextField label="Email" variant="filled">{student.email}</TextField>
-            <TextField label="7 Digit Student ID" variant="filled">{student.id}</TextField> */}
-				<Button>SUBMIT</Button>
+            <TextField label="7 Digit Student ID" variant="filled">{student.redwoodID}</TextField> */}
+				<Button variant="contained">SUBMIT</Button>
 			</Box>
 		</>
 	)
 }
-
-// which id is seven digit id? redwood v. id?

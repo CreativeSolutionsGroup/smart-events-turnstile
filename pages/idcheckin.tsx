@@ -27,16 +27,16 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     }
 }
 export default function IdCheckIn() {
-    const [student, setStudent] = useState({} as Student);
+    const [student, setStudent] = useState(null);
 
-    const handleSubmit = async ( event: SyntheticEvent ) => {
+    const handleSubmit = async (event: SyntheticEvent) => {
         event.preventDefault();
 
         const target = event.target as typeof event.target & {
             id: { value: string }
         };
 
-        const endpoint = `/api/student?id=${target.id.value}`
+        const endpoint = `/api/student/${target.id.value}`
         const response = await fetch(endpoint);
         const studentInfo = await response.json();
         setStudent(studentInfo);
@@ -49,13 +49,18 @@ export default function IdCheckIn() {
             <Box sx={{ display: "flex", flexDirection: "row" }}>
                 <form onSubmit={handleSubmit}>
                     <TextField label="5 Digit Student ID" name="id" variant="standard" />
-                    <Button type="submit">SUBMIT</Button>
+                    <Button type="submit">Search</Button>
                 </form>
-                <Button component={Link} href="/namecheckin">
-                    USE LAST NAME
-                </Button>
+                <Link href="/namecheckin">
+                    <Button>
+                        USE LAST NAME
+                    </Button>
+                </Link>
             </Box>
-            <CheckinCard student={student} checkIn={() => alert("User has checked in.")} />
+            {student ?
+                <CheckinCard student={student} checkIn={() => alert("User has checked in.")} /> :
+                <p>Press enter to search.</p>}
+
         </>
     )
 }

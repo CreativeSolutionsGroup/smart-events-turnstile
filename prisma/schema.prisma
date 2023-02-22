@@ -9,12 +9,12 @@ datasource db {
 
 model Student {
   id        String    @id @default(uuid())
-  prox      String
-  firstName String
-  lastName  String
-  year      Year
-  email     String
-  redwoodId String
+  name String
+  year      Year?
+  email     String?
+  redwoodId String?
+  prox      String?
+
   checkins  Checkin[]
 }
 

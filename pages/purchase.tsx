@@ -32,20 +32,20 @@ export default function Purchase() {
 
 	const [student, setStudent] = useState<Student>({} as Student);
 
-	const handleSubmit = async ( event: SyntheticEvent ) => {
-        event.preventDefault();
+	const handleSubmit = async (event: SyntheticEvent) => {
+		event.preventDefault();
 
-        const target = event.target as typeof event.target & {
-            id: { value: string }
-        };
+		const target = event.target as typeof event.target & {
+			id: { value: string }
+		};
 
 		const endpoint = `/api/student?id=${target.id.value}`
-        const studentResponse = await fetch(endpoint);
-        let studentInfo: Student = await studentResponse.json();
-		
-        if(studentInfo.email == null && student != null){
+		const studentResponse = await fetch(endpoint);
+		let studentInfo: Student = await studentResponse.json();
+
+		if (studentInfo.email == null && student != null) {
 			let req = {} as ReportRequest
-			req.checkins = [{createdAt: "", studentId: target.id.value}]
+			req.checkins = [{ createdAt: "", studentId: target.id.value }]
 			console.log(req)
 			const reportResponse = await fetch("/api/eventReport", {
 				headers: {
@@ -55,7 +55,7 @@ export default function Purchase() {
 				body: JSON.stringify(req)
 			})
 			const report: ReportResponse[] = await reportResponse.json();
-			
+
 			console.log(report)
 			studentInfo.email = report[0].Email
 
@@ -67,25 +67,25 @@ export default function Purchase() {
 				body: JSON.stringify(studentInfo)
 			})
 		}
-		
+
 		setStudent(studentInfo);
 
 	}
 
-	
+
 	return (
 		<>
 			<Typography fontWeight="bold" variant="h4">Turnstile</Typography>
 			<Typography variant="caption">Purchase</Typography>
 			<Box>
 				<form onSubmit={handleSubmit}>
-					<TextField label="5 Digit Student ID" name="id" variant="standard"  />
+					<TextField label="5 Digit Student ID" name="id" variant="standard" />
 					<Button type="submit" variant="contained">SUBMIT</Button>
 				</form>
-				
-				{ Object.keys(student).length != 0 && <PurchaseForm student={student}/>}
-			
-				
+
+				{Object.keys(student).length != 0 && <PurchaseForm student={student} />}
+
+
 			</Box>
 		</>
 	)

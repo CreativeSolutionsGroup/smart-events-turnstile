@@ -2,7 +2,6 @@ import { Box, TextField } from "@mui/material";
 import { Student } from "@prisma/client";
 
 export default function PurchaseForm({ student}: { student: Student}) {
-    console.log(student)
     return (
         <>
         <Box sx={{ display: "flex", flexDirection: "row" }}>

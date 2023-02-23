@@ -17,7 +17,6 @@ export const readFuzzyByName = async (name: string) => {
 
 export const updateStudentRecord = async ( student: Student) => {
 
-    console.log(student)
 
     await prisma.student.update({
         where: {

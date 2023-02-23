@@ -6,6 +6,9 @@ import { Student } from "@prisma/client";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]";
+import { SyntheticEvent, useState } from "react"
+import { ReportRequest, ReportResponse } from "@/interfaces/eventReport";
+import PurchaseForm from "@/components/PurchaseForm";
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
 	const session = await getServerSession(context.req, context.res, authOptions);
@@ -23,21 +26,66 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 	}
 }
 
-export default function Purchase({ student }: InferGetServerSidePropsType<typeof getServerSideProps> & { student: Student }) {
+
+
+export default function Purchase() {
+
+	const [student, setStudent] = useState<Student>({} as Student);
+
+	const handleSubmit = async ( event: SyntheticEvent ) => {
+        event.preventDefault();
+
+        const target = event.target as typeof event.target & {
+            id: { value: string }
+        };
+
+		const endpoint = `/api/student?id=${target.id.value}`
+        const studentResponse = await fetch(endpoint);
+        let studentInfo: Student = await studentResponse.json();
+		
+        if(studentInfo.email == null && student != null){
+			let req = {} as ReportRequest
+			req.checkins = [{createdAt: "", studentId: target.id.value}]
+			console.log(req)
+			const reportResponse = await fetch("/api/eventReport", {
+				headers: {
+					'Content-type': 'application/json'
+				},
+				method: 'POST',
+				body: JSON.stringify(req)
+			})
+			const report: ReportResponse[] = await reportResponse.json();
+			
+			console.log(report)
+			studentInfo.email = report[0].Email
+
+			fetch("/api/student", {
+				headers: {
+					'Content-type': 'application/json'
+				},
+				method: 'PUT',
+				body: JSON.stringify(studentInfo)
+			})
+		}
+		
+		setStudent(studentInfo);
+
+	}
+
+	
 	return (
 		<>
 			<Typography fontWeight="bold" variant="h4">Turnstile</Typography>
 			<Typography variant="caption">Purchase</Typography>
 			<Box>
-				<TextField label="5 Digit Student ID" variant="standard" />
-				{/* <Box sx={{ display: "flex", flexDirection: "row" }}>
-                <TextField label="First Name" variant="filled">{student.firstName}</TextField>
-                <TextField label="Last Name" variant="filled">{student.lastName}</TextField>
-            </Box>
-            <TextField label="Year" variant="filled">{student.year}</TextField>
-            <TextField label="Email" variant="filled">{student.email}</TextField>
-            <TextField label="7 Digit Student ID" variant="filled">{student.redwoodID}</TextField> */}
-				<Button variant="contained">SUBMIT</Button>
+				<form onSubmit={handleSubmit}>
+					<TextField label="5 Digit Student ID" name="id" variant="standard"  />
+					<Button type="submit" variant="contained">SUBMIT</Button>
+				</form>
+				
+				{ Object.keys(student).length != 0 && <PurchaseForm student={student}/>}
+			
+				
 			</Box>
 		</>
 	)

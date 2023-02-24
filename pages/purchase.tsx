@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/api/db";
-import { Box, Typography } from "@mui/material";
+import { Box, Paper, Typography } from "@mui/material";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { Student } from "@prisma/client";
@@ -25,7 +25,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
 export default function Purchase({ student }: InferGetServerSidePropsType<typeof getServerSideProps> & { student: Student }) {
 	return (
-		<>
+		<Paper sx={{ mt: 4, mx: "auto", maxWidth: "45rem", p: 2 }}>
 			<Typography fontWeight="bold" variant="h4">Turnstile</Typography>
 			<Typography variant="caption">Purchase</Typography>
 			<Box>
@@ -39,6 +39,6 @@ export default function Purchase({ student }: InferGetServerSidePropsType<typeof
             <TextField label="7 Digit Student ID" variant="filled">{student.redwoodID}</TextField> */}
 				<Button variant="contained">SUBMIT</Button>
 			</Box>
-		</>
+		</Paper>
 	)
 }

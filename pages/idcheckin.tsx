@@ -1,14 +1,11 @@
 import CheckinCard from "@/components/CheckinCard";
 import { prisma } from "@/lib/api/db";
-import { Box, Paper, Typography } from "@mui/material";
-import Button from "@mui/material/Button";
-import { grey } from "@mui/material/colors";
-import TextField from "@mui/material/TextField";
+import { Box, Paper, Typography, TextField, Button } from "@mui/material";
 import { Student } from "@prisma/client";
-import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
+import { GetServerSidePropsContext } from "next";
 import { getServerSession } from "next-auth";
 import Link from "next/link";
-import { FormEvent, SyntheticEvent, useState } from "react";
+import { SyntheticEvent, useState } from "react";
 import { authOptions } from "./api/auth/[...nextauth]";
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
@@ -43,7 +40,7 @@ export default function IdCheckIn() {
     }
 
     return (
-        <>
+        <Paper sx={{ mt: 4, mx: "auto", maxWidth: "45rem", p: 2 }}>
             <Typography fontWeight="bold" variant="h4">Turnstile</Typography>
             <Typography variant="caption">Check In</Typography>
             <Box sx={{ display: "flex", flexDirection: "row" }}>
@@ -56,6 +53,6 @@ export default function IdCheckIn() {
                 </Button>
             </Box>
             <CheckinCard student={student} checkIn={() => alert("User has checked in.")} />
-        </>
+        </Paper>
     )
 }

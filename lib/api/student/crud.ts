@@ -1,8 +1,16 @@
 import { Student } from "@prisma/client";
 import { prisma } from "../db"
 
-export const readOneByProxId = async (prox: string) => {
-    return await prisma.student.findFirst({ where: { prox } });
+export const readOneByProxId = async (evt: String, prox: string) => {
+    return await prisma.registeration.findMany({ 
+        where: { 
+            AND: [
+                { id: evt },
+                { registrations: {
+                    studentId: prox
+                } }
+        ]} 
+    });
 }
 
 export const readFuzzyByName = async (name: string) => {

@@ -40,19 +40,20 @@ export default function IdCheckIn() {
     }
 
     return (
-        <Paper sx={{ mt: 4, mx: "auto", maxWidth: "45rem", p: 2 }}>
-            <Typography fontWeight="bold" variant="h4">Turnstile</Typography>
-            <Typography variant="caption">Check In</Typography>
-            <Box sx={{ display: "flex", flexDirection: "row" }}>
+        <>
+            <Typography fontWeight="bold" variant="h4" align="center" mt={6}>Turnstile</Typography>
+            <Typography variant="caption" align="center" mt={1}>Check In</Typography>
+            <Box sx={{ display: "flex", flexDirection: "row", mx: "auto", maxWidth: "43rem" }}>
                 <form onSubmit={handleSubmit}>
-                    <TextField label="5 Digit Student ID" name="id" variant="standard" />
-                    <Button type="submit">SUBMIT</Button>
+                    <TextField label="5 Digit Student ID" name="id" variant="standard" sx={{ width: "36rem", mt: 1 }}/>
+                    <Button type="submit" variant="contained" sx={{ mt: 2, ml: 0.5 }}>SUBMIT</Button>
                 </form>
-                <Button component={Link} href="/namecheckin">
-                    USE LAST NAME
-                </Button>
             </Box>
             <CheckinCard student={student} checkIn={() => alert("User has checked in.")} />
-        </Paper>
+            <Box sx={{ mt: 2, mx: "auto", maxWidth: "43rem"}}>
+                <Button component={Link} href="/namecheckin" variant="contained">USE LAST NAME</Button>
+                <Button variant="contained" sx={{ alignSelf: "flex-end" }}>SWITCH TO PURCHASE</Button>
+            </Box>
+        </>
     )
 }

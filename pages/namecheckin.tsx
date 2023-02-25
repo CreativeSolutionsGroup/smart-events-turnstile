@@ -8,16 +8,26 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     return await checkUser(context);
 }
 
-export default function NameCheckIn({ students }: { students: Array<Student> }) {
+export default function NameCheckIn() {
     return (
-        <Paper sx={{ mt: 4, mx: "auto", maxWidth: "45rem", p: 2 }}>
-            <Typography fontWeight="bold" variant="h4">Turnstile</Typography>
-            <Typography variant="caption">Check In</Typography>
-            <Box sx={{ display: "flex", flexDirection: "row" }}>
-                <TextField label="Last Name" variant="standard" />
-                <Button>USE LAST NAME</Button>
+        <>
+            <Typography fontWeight="bold" variant="h4" align="center" mt={6}>Turnstile</Typography>
+            <Typography variant="caption" align="center" mt={1}>Check In</Typography>
+            <Box sx={{ display: "flex", flexDirection: "row", mx: "auto", maxWidth: "43rem" }}>
+                <form>
+                    <TextField label="Last Name" variant="standard" sx={{ width: "36rem", mt: 1 }}/>
+                    <Button type="submit" variant="contained" sx={{ mt: 2, ml: 0.5 }}>SUBMIT</Button>
+                </form>
             </Box>
-            {/* {students.map((student, i) => <CheckinCard student={student} key={i} />)} */}
-        </Paper>
+            {/*<CheckinCard student={student} checkIn={() => alert("User has checked in.")} />*/}
+            <Box sx={{ mt: 2, mx: "auto", maxWidth: "43rem"}}>
+                <Button variant="contained">USE 5 DIGIT ID</Button>
+                <Button variant="contained" sx={{ alignSelf: "flex-end" }}>SWITCH TO PURCHASE</Button>
+            </Box>
+        </>
     )
 }
+
+// add to line 17: onSubmit={handleSubmit}
+// add to line 18: name="lastName"
+// add to line 23: component={Link} href="/idcheckin"

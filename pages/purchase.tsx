@@ -25,20 +25,20 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
 export default function Purchase({ student }: InferGetServerSidePropsType<typeof getServerSideProps> & { student: Student }) {
 	return (
-		<Paper sx={{ mt: 4, mx: "auto", maxWidth: "45rem", p: 2 }}>
-			<Typography fontWeight="bold" variant="h4">Turnstile</Typography>
-			<Typography variant="caption">Purchase</Typography>
-			<Box>
-				<TextField label="5 Digit Student ID" variant="standard" />
+		<Box sx={{ mx: "auto", maxWidth: "40rem" }}>
+			<Typography fontWeight="bold" variant="h4" align="center" mt={6}>Turnstile</Typography>
+			<Typography variant="caption" align="center" mt={1}>Purchase</Typography>
+			<Box sx={{ mx: "auto", maxWidth: "40rem" }}>
+				<TextField label="5 Digit Student ID" variant="standard" sx={{ width: "43rem", mt: 1 }} />
 				{/* <Box sx={{ display: "flex", flexDirection: "row" }}>
                 <TextField label="First Name" variant="filled">{student.firstName}</TextField>
                 <TextField label="Last Name" variant="filled">{student.lastName}</TextField>
-            </Box>
-            <TextField label="Year" variant="filled">{student.year}</TextField>
-            <TextField label="Email" variant="filled">{student.email}</TextField>
-            <TextField label="7 Digit Student ID" variant="filled">{student.redwoodID}</TextField> */}
-				<Button variant="contained">SUBMIT</Button>
+					</Box>
+				<TextField label="Year" variant="filled">{student.year}</TextField>
+				<TextField label="Email" variant="filled">{student.email}</TextField>
+				<TextField label="7 Digit Student ID" variant="filled">{student.redwoodID}</TextField> */}
+				<Button variant="contained" sx={{ mt: 2 }}>SUBMIT</Button>
 			</Box>
-		</Paper>
+		</Box>
 	)
 }

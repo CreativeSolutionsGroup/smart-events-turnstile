@@ -1,7 +1,7 @@
 import CheckinCard from "@/components/CheckinCard";
+import { StyledForm } from "@/components/StyledForm";
 import { prisma } from "@/lib/api/db";
-import { Box, Paper, Typography, TextField, Button } from "@mui/material";
-import { Student } from "@prisma/client";
+import { Box, Typography, TextField, Button } from "@mui/material";
 import { GetServerSidePropsContext } from "next";
 import { getServerSession } from "next-auth";
 import Link from "next/link";
@@ -23,6 +23,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         }
     }
 }
+
 export default function IdCheckIn() {
     const [student, setStudent] = useState(null);
 
@@ -40,21 +41,21 @@ export default function IdCheckIn() {
     }
 
     return (
-        <Box width="55rem" mx="auto" display="flex" justifyItems="center" flexDirection="column">
-            <Typography fontWeight="bold" variant="h4" align="center" mt={6}>Turnstile</Typography>
-            <Typography mx="auto" variant="caption" align="center" mt={1}>Check In</Typography>
-            <Box sx={{ display: "flex", flexDirection: "row", mx: "auto", maxWidth: "43rem" }}>
-                <form onSubmit={handleSubmit}>
-                    <TextField label="5 Digit Student ID" name="id" variant="standard" sx={{ width: "36rem", mt: 1 }}/>
-                    <Button type="submit" variant="contained" sx={{ mt: 2, ml: 0.5 }}>SUBMIT</Button>
-                </form>
+        <Box width="45rem" mx="auto" display="flex" justifyItems="center" flexDirection="column">
+            <Typography fontWeight="bold" variant="h4" align="center" mt={5}>Turnstile</Typography>
+            <Typography mx="auto" variant="caption" align="center" mt={0.5}>Check In</Typography>
+            <Box display="flex" flexDirection="row" mx="auto" width="100%">
+                <StyledForm onSubmit={handleSubmit}>
+                    <TextField label="5 Digit Student ID" name="id" variant="standard" sx={{ width: "100%", mt: 1 }}/>
+                </StyledForm>
             </Box>
             {student ?
-                <CheckinCard student={student} checkIn={() => alert("User has checked in.")} /> :
-                <Typography>Press enter to search.</Typography>}
-            <Box sx={{ mt: 2, mx: "auto", maxWidth: "43rem"}}>
+                <CheckinCard student={student} checkIn={() => alert("User has checked in.")} /> : 
+                <Typography variant="caption" align="center">Press enter to search.</Typography>
+            }
+            <Box display="flex" flexDirection="row" mx="auto" mt={2} width="100%" justifyContent="space-between">
                 <Button component={Link} href="/namecheckin" variant="contained">USE LAST NAME</Button>
-                <Button variant="contained" sx={{ alignSelf: "flex-end" }}>SWITCH TO PURCHASE</Button>
+                <Button component={Link} href="/purchase" variant="contained">SWITCH TO PURCHASE</Button>
             </Box>
         </Box>
     )

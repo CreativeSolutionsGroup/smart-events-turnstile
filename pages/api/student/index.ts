@@ -8,11 +8,9 @@ export default async function handler(
   if (req.method === "GET") {
     const name = req.query.name;
     const evt = req.query.evt;
-    console.log(name + " " + evt)
 
     if (name) {
       const students = await getRegisteredByName(evt as string, name as string);
-      console.log(students)
       return res.json(students);
     }
 

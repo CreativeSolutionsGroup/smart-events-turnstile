@@ -15,23 +15,23 @@ model Student {
   redwoodId String?
   prox      String?
 
-  registrations Registeration[]
+  registrations Registration[]
 }
 
 model Event {
   id            String          @id @default(uuid())
   name          String
-  registrations Registeration[]
+  registrations Registration[]
 }
 
 model Checkin {
   id             String        @id @default(uuid())
   createdAt      DateTime      @default(now())
   registrationId String        @unique
-  registration   Registeration @relation(fields: [registrationId], references: [id])
+  registration   Registration @relation(fields: [registrationId], references: [id])
 }
 
-model Registeration {
+model Registration {
   id        String   @id @default(uuid())
   studentId String
   student   Student  @relation(fields: [studentId], references: [id])

@@ -36,7 +36,7 @@ export default function IdCheckIn() {
             id: { value: string }
         };
 
-        const endpoint = `/api/student/${target.id.value}`
+        const endpoint = `/api/student/${target.id.value}?evt=36a26786-1f41-46fa-b90b-5b09dc226d67`
         const response = await fetch(endpoint);
         const studentInfo = await response.json();
         setStudent(studentInfo);

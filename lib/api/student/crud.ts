@@ -1,15 +1,11 @@
 import { Student } from "@prisma/client";
 import { prisma } from "../db"
 
-export const readOneByProxId = async (evt: String, prox: string) => {
-    return await prisma.registeration.findMany({ 
-        where: { 
-            AND: [
-                { id: evt },
-                { registrations: {
-                    studentId: prox
-                } }
-        ]} 
+export const readOneByProxId = async (prox: string) => {
+    return await prisma.student.findFirst({
+        where: {
+            prox,
+        }
     });
 }
 
@@ -23,7 +19,7 @@ export const readFuzzyByName = async (name: string) => {
     })
 }
 
-export const updateStudentRecord = async ( student: Student) => {
+export const updateStudentRecord = async (student: Student) => {
 
 
     await prisma.student.update({
@@ -31,7 +27,32 @@ export const updateStudentRecord = async ( student: Student) => {
             id: student.id
         },
         data: {
-          email: student.email,
+            email: student.email,
         },
     })
+}
+
+export const getRegisteredById = async(evt: string, prox: string) => {
+    return await prisma.student.findFirst({
+        where: {
+            prox,
+            registrations: {
+                some: {
+                    event: {
+                        id: evt
+                    }
+                }
+            }
+        }
+    });
+    // return await prisma.registration.findFirst({ 
+    //     where: { 
+    //         student: {
+    //             prox
+    //         },
+    //         event: {
+    //             id: evt
+    //         }
+    //     } 
+    // });
 }

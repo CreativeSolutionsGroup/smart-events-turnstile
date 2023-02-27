@@ -9,13 +9,12 @@ export default async function handler(
   if (req.method === "GET") {
     const id = req.query.id;
     let studentInfo;
-    if (req.query.evt) {
+    if (req.query.evt !== null) {
       const evt = req.query.evt;
       studentInfo = await getRegisteredById(evt as string, id as string);
     } else {
       studentInfo = await readOneByProxId(id as string);
     }
-    console.log(studentInfo);
     res.json(studentInfo);
   }
 }

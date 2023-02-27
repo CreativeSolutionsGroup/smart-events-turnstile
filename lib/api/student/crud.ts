@@ -4,7 +4,7 @@ import { prisma } from "../db"
 export const readOneByProxId = async (prox: string) => {
     return await prisma.student.findFirst({
         where: {
-            prox,
+            prox
         }
     });
 }
@@ -45,14 +45,21 @@ export const getRegisteredById = async(evt: string, prox: string) => {
             }
         }
     });
-    // return await prisma.registration.findFirst({ 
-    //     where: { 
-    //         student: {
-    //             prox
-    //         },
-    //         event: {
-    //             id: evt
-    //         }
-    //     } 
-    // });
+}
+
+export const getRegisteredByName = async(evt: string, name: string) => {
+    return await prisma.student.findMany({
+        where: {
+            name: {
+                contains: name
+            },
+            registrations: {
+                some: {
+                    event: {
+                        id: evt
+                    }
+                }
+            }
+        }
+    });
 }

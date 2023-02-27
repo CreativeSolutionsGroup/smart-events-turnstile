@@ -1,4 +1,4 @@
-import { Student, Registeration } from "@prisma/client";
+import { Student, Registration, Event } from "@prisma/client";
 import { prisma } from "../db"
 
 export const readOneByProxId = async (prox: string) => {
@@ -26,16 +26,12 @@ export const updateStudentRecord = async ( student: Student) => {
     })
 }
 
-export const addRegistration = async ( student: Student, registration: Registeration ) => {
-    // TODO: Figure out why the Registeration array doesn't show up in student
-    await prisma.student.update({
-        where: {
-            id: student.id
-        },
+export const createRegistration = async ( student: Student, evt: Event ) => {
+    const reggie = await prisma.registration.create({
         data: {
-            Registeration: {
-                push: registration,
-            },
-        },
+            studentId: student.id,
+            eventId: evt.id,
+        }
     })
+    return reggie;
 }

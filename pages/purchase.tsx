@@ -72,7 +72,7 @@ export default function Purchase() {
                 headers: {
                     'Content-type': 'application/json'
                 },
-                method: 'PUT',
+                method: 'POST',
                 body: JSON.stringify(studentInfo)
             });
         }

@@ -1,6 +1,6 @@
-import { readOneByProxId, addRegistration } from "@/lib/api/student";
+import { readOneByProxId, createRegistration } from "@/lib/api/student";
 import { NextApiRequest, NextApiResponse } from "next";
-import { Registeration } from "@prisma/client";
+import { Registration, Event } from "@prisma/client";
 
 export default async function handler(
   req: NextApiRequest,
@@ -10,11 +10,10 @@ export default async function handler(
   const studentInfo = await readOneByProxId(id as string);
   if (req.method === "GET") {
     res.json(studentInfo);
-  } else if (req.method === "PUT") {
+  } else if (req.method === "POST") {
     // TODO: Pull in the event the student is being registered for
-    let registration: Registeration | null = null;
-    await addRegistration(studentInfo !, registration !);
-    // TODO: Figure out what makes sense to return here
-    res.json("Student successfully registered for event... probably");
+    let evt: Event | null = null;
+    const reginald = await createRegistration(studentInfo !, evt !);
+    res.json(reginald);
   }
 }

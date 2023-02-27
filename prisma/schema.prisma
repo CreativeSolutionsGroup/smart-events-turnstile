@@ -8,26 +8,26 @@ datasource db {
 }
 
 model Student {
-  id            String          @id @default(uuid())
-  name          String
-  year          Year?
-  email         String?
-  redwoodId     String?
-  prox          String?
-  Registeration Registeration[]
+  id           String         @id @default(uuid())
+  name         String
+  year         Year?
+  email        String?
+  redwoodId    String?
+  prox         String?
+  Registration Registration[]
 }
 
 model Event {
-  id            String          @id @default(uuid())
-  name          String
-  Registeration Registeration[]
+  id           String         @id @default(uuid())
+  name         String
+  Registration Registration[]
 }
 
 model Checkin {
-  id             String        @id @default(uuid())
-  createdAt      DateTime      @default(now())
-  registrationId String        @unique
-  Registeration  Registeration @relation(fields: [registrationId], references: [id])
+  id             String       @id @default(uuid())
+  createdAt      DateTime     @default(now())
+  registrationId String       @unique
+  Registeration  Registration @relation(fields: [registrationId], references: [id])
 }
 
 model Admin {
@@ -35,8 +35,8 @@ model Admin {
   email String
 }
 
-model Registeration {
-  id        String   @id
+model Registration {
+  id        String   @id @default(uuid())
   studentId String
   eventId   String
   Checkin   Checkin?

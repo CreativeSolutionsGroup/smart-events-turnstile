@@ -64,6 +64,17 @@ export default function Purchase() {
                 method: 'PUT',
                 body: JSON.stringify(studentInfo)
             })
+        } else {
+            // TODO: Maybe somewhere in this form is where we get the registration being added to the student?
+            //       Or maybe it's stored in the session or something
+            
+            await fetch(endpoint, {
+                headers: {
+                    'Content-type': 'application/json'
+                },
+                method: 'PUT',
+                body: JSON.stringify(studentInfo)
+            });
         }
 
         setStudent(studentInfo);

@@ -41,21 +41,21 @@ export default function NameCheckIn() {
     }
 
     return (
-        <>
+        <Box width="55rem" mx="auto" display="flex" justifyItems="center" flexDirection="column">
             <Typography fontWeight="bold" variant="h4" align="center" mt={6}>Turnstile</Typography>
             <Typography variant="caption" align="center" mt={1}>Check In</Typography>
             <Box sx={{ display: "flex", flexDirection: "row", mx: "auto", maxWidth: "43rem" }}>
                 <form onSubmit={handleSubmit}>
-                    <TextField label="Last Name" variant="standard" sx={{ width: "36rem", mt: 1 }} />
+                    <TextField name="name" label="Last Name" variant="standard" sx={{ width: "36rem", mt: 1 }} />
                     <Button type="submit" variant="contained" sx={{ mt: 2, ml: 0.5 }}>SUBMIT</Button>
                 </form>
             </Box>
-            {students.length !== 0 ? students.map((student, i) => <CheckinCard student={student} checkIn={() => alert("Checked in")} key={i} />) : <p>Press enter to search.</p>}
+            {students.length !== 0 ? students.map((student, i) => <CheckinCard student={student} checkIn={() => alert("Checked in")} key={i} />) : <Typography>Press enter to search.</Typography>}
             <Box sx={{ mt: 2, mx: "auto", maxWidth: "43rem" }}>
-                <Button variant="contained">USE 5 DIGIT ID</Button>
+                <Button component={Link} href="/idcheckin" variant="contained">USE 5 DIGIT ID</Button>
                 <Button variant="contained" sx={{ alignSelf: "flex-end" }}>SWITCH TO PURCHASE</Button>
             </Box>
-        </>
+        </Box>
     )
 }
 

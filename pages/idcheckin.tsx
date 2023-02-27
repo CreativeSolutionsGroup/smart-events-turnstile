@@ -40,9 +40,9 @@ export default function IdCheckIn() {
     }
 
     return (
-        <>
+        <Box width="55rem" mx="auto" display="flex" justifyItems="center" flexDirection="column">
             <Typography fontWeight="bold" variant="h4" align="center" mt={6}>Turnstile</Typography>
-            <Typography variant="caption" align="center" mt={1}>Check In</Typography>
+            <Typography mx="auto" variant="caption" align="center" mt={1}>Check In</Typography>
             <Box sx={{ display: "flex", flexDirection: "row", mx: "auto", maxWidth: "43rem" }}>
                 <form onSubmit={handleSubmit}>
                     <TextField label="5 Digit Student ID" name="id" variant="standard" sx={{ width: "36rem", mt: 1 }}/>
@@ -51,11 +51,11 @@ export default function IdCheckIn() {
             </Box>
             {student ?
                 <CheckinCard student={student} checkIn={() => alert("User has checked in.")} /> :
-                <p>Press enter to search.</p>}
+                <Typography>Press enter to search.</Typography>}
             <Box sx={{ mt: 2, mx: "auto", maxWidth: "43rem"}}>
                 <Button component={Link} href="/namecheckin" variant="contained">USE LAST NAME</Button>
                 <Button variant="contained" sx={{ alignSelf: "flex-end" }}>SWITCH TO PURCHASE</Button>
             </Box>
-        </>
+        </Box>
     )
 }

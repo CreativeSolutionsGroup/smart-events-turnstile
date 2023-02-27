@@ -1,14 +1,11 @@
 import CheckinCard from "@/components/CheckinCard";
+import { StyledForm } from "@/components/StyledForm";
 import { prisma } from "@/lib/api/db";
-import { Box, Paper, Typography } from "@mui/material";
-import Button from "@mui/material/Button";
-import { grey } from "@mui/material/colors";
-import TextField from "@mui/material/TextField";
-import { Student } from "@prisma/client";
-import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
+import { Box, Typography, TextField, Button } from "@mui/material";
+import { GetServerSidePropsContext } from "next";
 import { getServerSession } from "next-auth";
 import Link from "next/link";
-import { FormEvent, SyntheticEvent, useState } from "react";
+import { SyntheticEvent, useState } from "react";
 import { authOptions } from "./api/auth/[...nextauth]";
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
@@ -26,6 +23,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         }
     }
 }
+
 export default function IdCheckIn() {
     const [student, setStudent] = useState(null);
 
@@ -43,24 +41,22 @@ export default function IdCheckIn() {
     }
 
     return (
-        <>
-            <Typography fontWeight="bold" variant="h4">Turnstile</Typography>
-            <Typography variant="caption">Check In</Typography>
-            <Box sx={{ display: "flex", flexDirection: "row" }}>
-                <form onSubmit={handleSubmit}>
-                    <TextField label="5 Digit Student ID" name="id" variant="standard" />
-                    <Button type="submit">Search</Button>
-                </form>
-                <Link href="/namecheckin">
-                    <Button>
-                        USE LAST NAME
-                    </Button>
-                </Link>
+        <Box width="45rem" mx="auto" display="flex" justifyItems="center" flexDirection="column">
+            <Typography fontWeight="bold" variant="h4" align="center" mt={5}>Turnstile</Typography>
+            <Typography mx="auto" variant="caption" align="center" mt={0.5}>Check In</Typography>
+            <Box display="flex" flexDirection="row" mx="auto" width="100%">
+                <StyledForm onSubmit={handleSubmit}>
+                    <TextField label="5 Digit Student ID" name="id" variant="standard" sx={{ width: "100%", mt: 1 }}/>
+                </StyledForm>
             </Box>
             {student ?
-                <CheckinCard student={student} checkIn={() => alert("User has checked in.")} /> :
-                <p>Press enter to search.</p>}
-
-        </>
+                <CheckinCard student={student} checkIn={() => alert("User has checked in.")} /> : 
+                <Typography variant="caption" align="center">Press enter to search.</Typography>
+            }
+            <Box display="flex" flexDirection="row" mx="auto" mt={2} width="100%" justifyContent="space-between">
+                <Button component={Link} href="/namecheckin" variant="contained">USE LAST NAME</Button>
+                <Button component={Link} href="/purchase" variant="contained">SWITCH TO PURCHASE</Button>
+            </Box>
+        </Box>
     )
 }

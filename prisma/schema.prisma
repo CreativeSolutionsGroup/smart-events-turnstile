@@ -45,6 +45,15 @@ model Admin {
   email String
 }
 
+model Registeration {
+  id        String   @id
+  studentId String
+  eventId   String
+  Checkin   Checkin?
+  Event     Event    @relation(fields: [eventId], references: [id])
+  Student   Student  @relation(fields: [studentId], references: [id])
+}
+
 enum Year {
   FRESHMAN
   SOPHOMORE

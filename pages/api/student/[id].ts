@@ -12,8 +12,9 @@ export default async function handler(
     res.json(studentInfo);
   } else if (req.method === "POST") {
     // TODO: Pull in the event the student is being registered for
+    console.log("in post function")
     let evt: Event | null = null;
-    const reginald = await createRegistration(studentInfo !, evt !);
-    res.json(reginald);
+    const reggie = await createRegistration(studentInfo !, evt !);
+    res.json(reggie);
   }
 }

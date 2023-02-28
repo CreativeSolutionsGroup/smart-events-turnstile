@@ -43,8 +43,18 @@ export default function Purchase() {
         const studentResponse = await fetch(endpoint);
         let studentInfo: Student = await studentResponse.json();
 
+        // TODO: Pass in an actual event to register the student for
+        // Create a registration connecting the student and the event
+        await fetch(`/api/student/${target.id.value}`, {
+            headers: {
+                'Content-type': 'application/json'
+            },
+            method: 'POST',
+            body: JSON.stringify(studentInfo),
+        });
+
         if (studentInfo.email == null && student != null) {
-            let req = {} as ReportRequest
+            let req = {} as ReportRequest;
             req.checkins = [{ createdAt: "", studentId: target.id.value }]
             const reportResponse = await fetch("/api/eventReport", {
                 headers: {
@@ -64,18 +74,9 @@ export default function Purchase() {
                 method: 'PUT',
                 body: JSON.stringify(studentInfo)
             })
-        } else {
-            // TODO: Maybe somewhere in this form is where we get the registration being added to the student?
-            //       Or maybe it's stored in the session or something
-            
-            await fetch(endpoint, {
-                headers: {
-                    'Content-type': 'application/json'
-                },
-                method: 'POST',
-                body: JSON.stringify(studentInfo)
-            });
         }
+        
+        
 
         setStudent(studentInfo);
 

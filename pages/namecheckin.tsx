@@ -27,7 +27,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
 export default function NameCheckIn() {
     const [students, setStudents] = useState<Array<Student>>([]);
-    const [nameFormData, setNameFormData] = useState("");
+    const [idFormData, setIdFormData] = useState("");
 
     const handleSubmit = async (event: SyntheticEvent) => {
         event.preventDefault();
@@ -36,11 +36,12 @@ export default function NameCheckIn() {
             name: { value: string }
         };
 
-        const endpoint = `/api/student?name=${target.name.value}`
+        const endpoint = `/api/student?name=${target.name.value}&evt=36a26786-1f41-46fa-b90b-5b09dc226d67`
         const response = await fetch(endpoint);
-        const studentInfo = await response.json();
-        setStudents(studentInfo);
-        setNameFormData("");
+        console.log(response)
+        const studentsInfo = await response.json();
+        setStudents(studentsInfo);
+        setIdFormData("");
     }
 
     return (
@@ -49,7 +50,7 @@ export default function NameCheckIn() {
             <Typography variant="caption" align="center" mt={0.5}>Check In</Typography>
             <Box display="flex" flexDirection="row" mx="auto" width="100%">
                 <StyledForm onSubmit={handleSubmit}>
-                    <TextField value={nameFormData} onChange={e => setNameFormData(e.target.value)} name="name" label="Last Name" variant="standard" sx={{ width: "100%", mt: 1 }} inputRef={input => input && input.focus()} />
+                    <TextField name="name" label="Last Name" variant="standard" sx={{ width: "100%", mt: 1 }} inputRef={input => input && input.focus()} value={idFormData} onChange={e => setIdFormData(e.target.value)} />
                 </StyledForm>
             </Box>
             {students.length !== 0 ?

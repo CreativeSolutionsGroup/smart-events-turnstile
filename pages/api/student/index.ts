@@ -1,4 +1,4 @@
-import { readFuzzyByName, readOneByProxId } from "@/lib/api/student";
+import { getRegisteredByName, readFuzzyByName, readOneByProxId } from "@/lib/api/student";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
@@ -7,9 +7,10 @@ export default async function handler(
 ) {
   if (req.method === "GET") {
     const name = req.query.name;
+    const evt = req.query.evt;
 
     if (name) {
-      const students = await readFuzzyByName(name as string);
+      const students = await getRegisteredByName(evt as string, name as string);
       return res.json(students);
     }
 

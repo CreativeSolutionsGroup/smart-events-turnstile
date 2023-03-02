@@ -1,7 +1,6 @@
 import { prisma } from "@/lib/api/db";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import { Box, Typography, TextField, Button, Select, MenuItem, InputLabel, FormControl, SelectChangeEvent } from "@mui/material";
-import { StyledForm } from "@/components/StyledForm";
 import { SyntheticEvent, useState } from "react";
 import Link from "next/link";
 import { getServerSession } from "next-auth";
@@ -29,7 +28,7 @@ export default function eventSelect({ events }: InferGetServerSidePropsType<type
     const [notSelected, setselected] = useState(true);
 
     const handleChange = async (event: SelectChangeEvent) => {
-        sessionStorage.setItem("event", event.target.value)
+        sessionStorage.setItem("eventId", event.target.value)
         setselected(false);
     }
 

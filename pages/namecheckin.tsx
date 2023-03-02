@@ -27,6 +27,16 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
 export default function NameCheckIn() {
     const [students, setStudents] = useState<Array<Student>>([]);
+    const event = sessionStorage.getItem("eventId");
+
+    if (!event) {
+        return {
+            redirect: {
+                permanent: false,
+                destination: "/api/auth/signin"
+            }
+        }   
+    }
 
     const handleSubmit = async (event: SyntheticEvent) => {
         event.preventDefault();

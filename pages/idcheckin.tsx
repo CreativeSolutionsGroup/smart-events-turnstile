@@ -2,7 +2,7 @@ import CheckinCard from "@/components/CheckinCard";
 import { StyledForm } from "@/components/StyledForm";
 import { prisma } from "@/lib/api/db";
 import { Box, Typography, TextField, Button } from "@mui/material";
-import { GetServerSidePropsContext } from "next";
+import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import { getServerSession } from "next-auth";
 import Link from "next/link";
 import { SyntheticEvent, useState } from "react";
@@ -26,6 +26,16 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
 export default function IdCheckIn() {
     const [student, setStudent] = useState(null);
+    const event = sessionStorage.getItem("eventId");
+
+    if (!event) {
+        return {
+            redirect: {
+                permanent: false,
+                destination: "/api/auth/signin"
+            }
+        }   
+    }
 
     const handleSubmit = async (event: SyntheticEvent) => {
         event.preventDefault();
@@ -34,7 +44,7 @@ export default function IdCheckIn() {
             id: { value: string }
         };
 
-        const endpoint = `/api/student/${target.id.value}?evt=36a26786-1f41-46fa-b90b-5b09dc226d67`
+        const endpoint = `/api/student/${target.id.value}?evt=${event}`
         const response = await fetch(endpoint);
         const studentInfo = await response.json();
         setStudent(studentInfo);

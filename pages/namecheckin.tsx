@@ -35,10 +35,11 @@ export default function NameCheckIn() {
             name: { value: string }
         };
 
-        const endpoint = `/api/student?name=${target.name.value}`
+        const endpoint = `/api/student?name=${target.name.value}&evt=36a26786-1f41-46fa-b90b-5b09dc226d67`
         const response = await fetch(endpoint);
-        const studentInfo = await response.json();
-        setStudents(studentInfo);
+        console.log(response)
+        const studentsInfo = await response.json();
+        setStudents(studentsInfo);
     }
 
     return (

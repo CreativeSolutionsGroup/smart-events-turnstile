@@ -8,40 +8,41 @@ datasource db {
 }
 
 model Student {
-  id           String         @id @default(uuid())
-  name         String
-  year         Year?
-  email        String?
-  redwoodId    String?
-  prox         String?
-  Registration Registration[]
+  id        String  @id @default(uuid())
+  name      String
+  year      Year?
+  email     String?
+  redwoodId String?
+  prox      String?
+
+  registrations Registration[]
 }
 
 model Event {
-  id           String         @id @default(uuid())
-  name         String
-  Registration Registration[]
+  id            String          @id @default(uuid())
+  name          String
+  registrations Registration[]
 }
 
 model Checkin {
-  id             String       @id @default(uuid())
-  createdAt      DateTime     @default(now())
-  registrationId String       @unique
-  Registeration  Registration @relation(fields: [registrationId], references: [id])
+  id             String        @id @default(uuid())
+  createdAt      DateTime      @default(now())
+  registrationId String        @unique
+  registration   Registration @relation(fields: [registrationId], references: [id])
+}
+
+model Registration {
+  id        String   @id @default(uuid())
+  studentId String
+  student   Student  @relation(fields: [studentId], references: [id])
+  eventId   String
+  event     Event    @relation(fields: [eventId], references: [id])
+  checkin   Checkin?
 }
 
 model Admin {
   id    String @id @default(uuid())
   email String
-}
-
-model Registration {
-  id        String   @id
-  studentId String
-  eventId   String
-  Checkin   Checkin?
-  Event     Event    @relation(fields: [eventId], references: [id])
-  Student   Student  @relation(fields: [studentId], references: [id])
 }
 
 enum Year {

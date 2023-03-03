@@ -1,4 +1,4 @@
-import { Student } from "@prisma/client";
+import { Event, Student } from "@prisma/client";
 import { prisma } from "../db"
 
 export const readOneByProxId = async (prox: string) => {
@@ -32,7 +32,7 @@ export const updateStudentRecord = async (student: Student) => {
     })
 }
 
-export const getRegisteredById = async(evt: string, prox: string) => {
+export const getRegisteredById = async (evt: string, prox: string) => {
     return await prisma.student.findFirst({
         where: {
             prox,
@@ -47,7 +47,7 @@ export const getRegisteredById = async(evt: string, prox: string) => {
     });
 }
 
-export const getRegisteredByName = async(evt: string, name: string) => {
+export const getRegisteredByName = async (evt: string, name: string) => {
     return await prisma.student.findMany({
         where: {
             name: {
@@ -58,6 +58,23 @@ export const getRegisteredByName = async(evt: string, name: string) => {
                     event: {
                         id: evt
                     }
+                }
+            }
+        }
+    });
+}
+
+export const createRegistration = async (studentId: string, eventId: string) => {
+    await prisma.registration.create({
+        data: {
+            event: {
+                connect: {
+                    id: eventId
+                }
+            },
+            student: {
+                connect: {
+                    id: studentId
                 }
             }
         }

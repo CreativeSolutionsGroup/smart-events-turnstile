@@ -4,7 +4,7 @@ import { PrismaClient } from '@prisma/client'
 export async function getServerSideProps() {
   return {
     redirect: {
-      destination: "/purchase",
+      destination: "/eventselect",
       permanent: true
     }
   }

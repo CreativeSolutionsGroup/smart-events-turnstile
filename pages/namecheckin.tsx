@@ -5,9 +5,11 @@ import { Student } from "@prisma/client";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import { getServerSession } from "next-auth";
 import Link from "next/link";
-import { SyntheticEvent, useState } from "react";
+import { SyntheticEvent, useEffect, useState } from "react";
 import { authOptions } from "./api/auth/[...nextauth]";
 import { StyledForm } from "@/components/StyledForm";
+import redirect from 'nextjs-redirect';
+import Router from "next/router";
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
     const session = await getServerSession(context.req, context.res, authOptions);
@@ -27,15 +29,18 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
 export default function NameCheckIn() {
     const [students, setStudents] = useState<Array<Student>>([]);
-    const event = sessionStorage.getItem("eventId");
+    const [event, setEvent] = useState("");
+    useEffect(() => {
+        if (sessionStorage.getItem('eventId') === null) {return}
+        setEvent(sessionStorage.getItem('eventId')!)
+    }, [])
 
     if (!event) {
-        return {
-            redirect: {
-                permanent: false,
-                destination: "/api/auth/signin"
-            }
-        }   
+        console.log("attempting to redirect")
+        useEffect(() => {
+            redirect('/eventselect');
+            Router.replace("/eventselect", "/eventselect", { shallow: true });
+        }, []);
     }
 
     const handleSubmit = async (event: SyntheticEvent) => {

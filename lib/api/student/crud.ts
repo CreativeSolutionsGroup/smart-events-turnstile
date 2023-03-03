@@ -1,4 +1,5 @@
 import { Student } from "@prisma/client";
+import { useEffect, useState } from "react";
 import { prisma } from "../db"
 
 export const readOneByProxId = async (prox: string) => {

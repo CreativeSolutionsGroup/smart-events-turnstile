@@ -7,9 +7,11 @@ import { Student } from "@prisma/client";
 import { GetServerSidePropsContext } from "next";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]";
-import { SyntheticEvent, useState } from "react"
+import { SyntheticEvent, useEffect, useState } from "react"
 import { ReportRequest, ReportResponse } from "@/interfaces/eventReport";
 import { StyledForm } from "@/components/StyledForm";
+import redirect from 'nextjs-redirect';
+import Router from "next/router";
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
     const session = await getServerSession(context.req, context.res, authOptions);
@@ -30,8 +32,20 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
 
 export default function Purchase() {
-
     const [student, setStudent] = useState<Student>({} as Student);
+    const [event, setEvent] = useState("");
+    useEffect(() => {
+        if (sessionStorage.getItem('eventId') === null) {return}
+        setEvent(sessionStorage.getItem('eventId')!)
+    }, [])
+
+    if (!event) {
+        console.log(event)
+        useEffect(() => {
+            redirect('/eventselect');
+            Router.replace("/eventselect", "/eventselect");
+        }, []);
+    }
 
     const handleSubmit = async (event: SyntheticEvent) => {
         event.preventDefault();

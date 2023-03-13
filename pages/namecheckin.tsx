@@ -5,9 +5,10 @@ import { Student } from "@prisma/client";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import { getServerSession } from "next-auth";
 import Link from "next/link";
-import { SyntheticEvent, useState } from "react";
+import { SyntheticEvent, useEffect, useState } from "react";
 import { authOptions } from "./api/auth/[...nextauth]";
 import { StyledForm } from "@/components/StyledForm";
+import { useRouter } from "next/router";
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
     const session = await getServerSession(context.req, context.res, authOptions);
@@ -28,6 +29,19 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 export default function NameCheckIn() {
     const [students, setStudents] = useState<Array<Student>>([]);
     const [idFormData, setIdFormData] = useState("");
+    const [event, setEvent] = useState("");
+    const router = useRouter();
+    useEffect(() => {
+        if (sessionStorage.getItem('eventId') === null) {
+            router.replace("/eventselect");
+            return
+        }
+        setEvent(sessionStorage.getItem('eventId')!)
+    }, [])
+
+    if (!event) {
+        console.log("attempting to redirect");
+    }
 
     const handleSubmit = async (event: SyntheticEvent) => {
         event.preventDefault();

@@ -8,8 +8,7 @@ import Link from "next/link";
 import { SyntheticEvent, useEffect, useState } from "react";
 import { authOptions } from "./api/auth/[...nextauth]";
 import { StyledForm } from "@/components/StyledForm";
-import redirect from 'nextjs-redirect';
-import Router from "next/router";
+import { useRouter } from "next/router";
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
     const session = await getServerSession(context.req, context.res, authOptions);
@@ -31,17 +30,17 @@ export default function NameCheckIn() {
     const [students, setStudents] = useState<Array<Student>>([]);
     const [idFormData, setIdFormData] = useState("");
     const [event, setEvent] = useState("");
+    const router = useRouter();
     useEffect(() => {
-        if (sessionStorage.getItem('eventId') === null) {return}
+        if (sessionStorage.getItem('eventId') === null) {
+            router.replace("/eventselect");
+            return
+        }
         setEvent(sessionStorage.getItem('eventId')!)
     }, [])
 
     if (!event) {
-        console.log("attempting to redirect")
-        useEffect(() => {
-            redirect('/eventselect');
-            Router.replace("/eventselect", "/eventselect", { shallow: true });
-        }, []);
+        console.log("attempting to redirect");
     }
 
     const handleSubmit = async (event: SyntheticEvent) => {

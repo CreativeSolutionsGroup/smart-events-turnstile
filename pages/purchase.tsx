@@ -10,8 +10,7 @@ import { getServerSession } from "next-auth";
 import Link from "next/link";
 import { MutableRefObject, SyntheticEvent, useEffect, useState, useRef, RefObject } from "react";
 import { authOptions } from "./api/auth/[...nextauth]";
-import redirect from 'nextjs-redirect';
-import Router from "next/router";
+import { useRouter } from "next/router";
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
     const session = await getServerSession(context.req, context.res, authOptions);
@@ -35,18 +34,14 @@ export default function Purchase() {
     const [student, setStudent] = useState<Student>({} as Student);
     const [idFormData, setIdFormData] = useState("");
     const [event, setEvent] = useState("");
+    const router = useRouter();
     useEffect(() => {
-        if (sessionStorage.getItem('eventId') === null) {return}
+        if (sessionStorage.getItem('eventId') === null) {
+            router.replace("/eventselect");
+            return
+        }
         setEvent(sessionStorage.getItem('eventId')!)
     }, [])
-
-    if (!event) {
-        console.log(event)
-        useEffect(() => {
-            redirect('/eventselect');
-            Router.replace("/eventselect", "/eventselect");
-        }, []);
-    }
 
     const handleSubmit = async (event: SyntheticEvent) => {
         event.preventDefault();

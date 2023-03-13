@@ -38,10 +38,10 @@ export default function IdCheckIn() {
         setEvent(sessionStorage.getItem('eventId')!)
     }, [])
 
-    const handleSubmit = async (event: SyntheticEvent) => {
-        event.preventDefault();
+    const handleSubmit = async (e: SyntheticEvent) => {
+        e.preventDefault();
 
-        const target = event.target as typeof event.target & {
+        const target = e.target as typeof e.target & {
             id: { value: string }
         };
 

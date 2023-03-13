@@ -1,15 +1,15 @@
+import { StyledForm } from "@/components/StyledForm";
+import { ReportRequest, ReportResponse } from "@/interfaces/eventReport";
 import { prisma } from "@/lib/api/db";
 import { Box, Typography } from "@mui/material";
 import Button from "@mui/material/Button";
-import Link from "next/link";
 import TextField from "@mui/material/TextField";
 import { Student } from "@prisma/client";
 import { GetServerSidePropsContext } from "next";
 import { getServerSession } from "next-auth";
+import Link from "next/link";
+import { MutableRefObject, SyntheticEvent, useEffect, useState, useRef, RefObject } from "react";
 import { authOptions } from "./api/auth/[...nextauth]";
-import { SyntheticEvent, useEffect, useState } from "react"
-import { ReportRequest, ReportResponse } from "@/interfaces/eventReport";
-import { StyledForm } from "@/components/StyledForm";
 import redirect from 'nextjs-redirect';
 import Router from "next/router";
 
@@ -33,6 +33,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
 export default function Purchase() {
     const [student, setStudent] = useState<Student>({} as Student);
+    const [idFormData, setIdFormData] = useState("");
     const [event, setEvent] = useState("");
     useEffect(() => {
         if (sessionStorage.getItem('eventId') === null) {return}
@@ -54,9 +55,10 @@ export default function Purchase() {
             id: { value: string }
         };
 
-        const endpoint = `/api/student?id=${target.id.value}`
+        const endpoint = `/api/student/${target.id.value}`
         const studentResponse = await fetch(endpoint);
-        let studentInfo: Student = await studentResponse.json();
+        const studentInfo: Student = await studentResponse.json();
+        console.log(studentInfo)
 
         if (studentInfo.email == null && student != null) {
             let req = {} as ReportRequest
@@ -82,7 +84,7 @@ export default function Purchase() {
         }
 
         setStudent(studentInfo);
-
+        setIdFormData("");
     }
 
     return (
@@ -91,7 +93,7 @@ export default function Purchase() {
             <Typography variant="caption" align="center" mt={0.5}>Purchase</Typography>
             <Box display="flex" flexDirection="row" mx="auto" width="100%">
                 <StyledForm onSubmit={handleSubmit}>
-                    <TextField label="5 Digit Student ID" name="id" variant="standard" sx={{ width: "100%", mt: 1 }} />
+                    <TextField value={idFormData} onChange={e => setIdFormData(e.target.value)} label="5 Digit Student ID" name="id" variant="standard" sx={{ width: "100%", mt: 1 }} inputRef={input => input && input.focus()} />
                 </StyledForm>
             </Box>
             <Box display="flex" flexDirection="row" mx="auto" mt={2} width="100%" justifyContent="space-between">

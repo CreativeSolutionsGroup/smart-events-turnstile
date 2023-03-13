@@ -29,6 +29,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
 export default function NameCheckIn() {
     const [students, setStudents] = useState<Array<Student>>([]);
+    const [idFormData, setIdFormData] = useState("");
     const [event, setEvent] = useState("");
     useEffect(() => {
         if (sessionStorage.getItem('eventId') === null) {return}
@@ -55,6 +56,7 @@ export default function NameCheckIn() {
         console.log(response)
         const studentsInfo = await response.json();
         setStudents(studentsInfo);
+        setIdFormData("");
     }
 
     return (
@@ -63,11 +65,11 @@ export default function NameCheckIn() {
             <Typography variant="caption" align="center" mt={0.5}>Check In</Typography>
             <Box display="flex" flexDirection="row" mx="auto" width="100%">
                 <StyledForm onSubmit={handleSubmit}>
-                    <TextField name="name" label="Last Name" variant="standard" sx={{ width: "100%", mt: 1 }} />
+                    <TextField name="name" label="Last Name" variant="standard" sx={{ width: "100%", mt: 1 }} inputRef={input => input && input.focus()} value={idFormData} onChange={e => setIdFormData(e.target.value)} />
                 </StyledForm>
             </Box>
-            {students.length !== 0 ? 
-                students.map((student, i) => <CheckinCard student={student} checkIn={() => alert("Checked in")} key={i} />) : 
+            {students.length !== 0 ?
+                students.map((student, i) => <CheckinCard student={student} checkIn={() => alert("Checked in")} key={i} />) :
                 <Typography variant="caption" align="center">Press enter to search.</Typography>
             }
             <Box display="flex" flexDirection="row" mt={2} width="100%" justifyContent="space-between">
